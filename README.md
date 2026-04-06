@@ -1,6 +1,6 @@
 # Brisbane Housing Affordability Analysis
 
-Geospatial machine learning analysis mapping housing supply shortfall across 92 Brisbane suburbs using ABS population projections and Queensland government land data.
+Geospatial machine learning analysis mapping housing supply shortfall across 33 Brisbane suburbs using ABS population projections and Queensland government land data.
 
 ---
 
@@ -17,7 +17,7 @@ The output is suburb-level supply risk scores (low / medium / high) designed to 
 | Source | Description |
 |--------|-------------|
 | Queensland Spatial Catalogue | Residential land supply boundaries and development timing for Brisbane parcels |
-| ABS SA2 Boundary Shapefile (2021) | Geographic boundaries for 92 Statistical Area 2 regions |
+| ABS SA2 Boundary Shapefile (2021) | Geographic boundaries for 33 Statistical Area 2 regions |
 | Queensland Population Projections | Projected population values per SA2 from 2021 to 2046 |
 
 Key features: SA2 region boundaries, dwelling yields, residential land area, indicative development timing, population growth rates, projected shortfall/surplus ratios.
@@ -52,7 +52,7 @@ Key features: SA2 region boundaries, dwelling yields, residential land area, ind
 
 ## Key Findings
 
-- **83% classification accuracy** for suburb-level supply risk across 92 SA2 regions
+- **83% classification accuracy** for suburb-level supply risk across 33 SA2 regions
 - Residential land supply varies significantly across Brisbane — housing pressure is not uniform across the metro area
 - Inner-city and high-growth corridor suburbs show the highest supply pressure relative to available land
 - Dwelling yield and supply ratio are the strongest predictors of shortfall risk; Random Forest consistently outperformed Linear Regression on these non-linear spatial patterns
