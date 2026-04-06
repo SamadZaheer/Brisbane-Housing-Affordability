@@ -1,14 +1,23 @@
 # Brisbane Housing Affordability Analysis
 
-Geospatial machine learning analysis mapping housing supply shortfall across 33 Brisbane suburbs using ABS population projections and Queensland government land data.
+Geospatial machine learning analysis mapping housing supply shortfall across 33 Brisbane SA2 regions using ABS population projections and Queensland government land data.
+
+## Interactive App
+
+An interactive Streamlit app visualises the analysis outputs:
+
+[![Live App](https://img.shields.io/badge/Live%20App-Streamlit-ff4b4b?logo=streamlit)](https://samadzaheer-brisbane-housing-affordability.streamlit.app)
+[![App Repo](https://img.shields.io/badge/App%20Repo-GitHub-181717?logo=github)](https://github.com/SamadZaheer/brisbane-housing-affordability-app)
 
 ---
 
 ## Project Overview
 
-Brisbane's rapid population growth is putting pressure on housing supply — but that pressure is not evenly distributed. This project identifies which suburbs face the greatest risk of dwelling shortfall by combining government geospatial data with demographic projections and a machine learning classifier.
+Brisbane's rapid population growth is putting pressure on housing supply — but that pressure is not evenly distributed. This project identifies which SA2 regions face the greatest dwelling shortfall by combining Queensland government geospatial data with ABS demographic projections and machine learning.
 
-The output is suburb-level supply risk scores (low / medium / high) designed to support local government planners and property developers in making data-driven supply decisions. The classifier replaces expensive manual survey analysis with an automated, regularly-updatable model that can be re-run as new ABS or CoreLogic data becomes available.
+571 individual land parcels from the Queensland Spatial Catalogue were spatially joined to their SA2 regions and aggregated to 33 SA2-level records. These were merged with ABS population projections through 2046 to calculate a dwelling gap (planned supply vs projected need) for each region.
+
+A Random Forest Classifier (83% accuracy) labels each SA2 as Low, Medium, or High dwelling supply. A Random Forest Regressor (R²=0.489) estimates total dwelling yield. An interactive Streamlit app visualises the findings on a Folium choropleth map with per-region population projection charts.
 
 ---
 
@@ -17,7 +26,7 @@ The output is suburb-level supply risk scores (low / medium / high) designed to 
 | Source | Description |
 |--------|-------------|
 | Queensland Spatial Catalogue | Residential land supply boundaries and development timing for Brisbane parcels |
-| ABS SA2 Boundary Shapefile (2021) | Geographic boundaries for 33 Statistical Area 2 regions |
+| ABS SA2 Boundary Shapefile (2021) | Geographic boundaries for Statistical Area 2 regions in Brisbane |
 | Queensland Population Projections | Projected population values per SA2 from 2021 to 2046 |
 
 Key features: SA2 region boundaries, dwelling yields, residential land area, indicative development timing, population growth rates, projected shortfall/surplus ratios.
@@ -35,7 +44,7 @@ Key features: SA2 region boundaries, dwelling yields, residential land area, ind
 3. **Aggregation** — calculated per-SA2 summaries: parcel count, total dwelling yield, average dwelling yield, average development timing
 4. **Feature engineering** — created dwelling yield per capita, estimated dwelling need from population growth, and supply gap relative to projected demand (2021–2046)
 5. **Model training** — trained and compared three approaches:
-   - **Linear Regression** — baseline continuous yield estimation
+   - **Linear Regression** — attempted first; abandoned after R²=0.044 (less than 5% of variance explained at parcel level)
    - **Random Forest Regressor** — non-linear yield estimation
    - **Random Forest Classifier** — final model; labels each SA2 as low / medium / high supply risk
 6. **Evaluation** — MAE, MSE, R² for regression models; classification report and confusion matrix for the classifier
@@ -52,18 +61,18 @@ Key features: SA2 region boundaries, dwelling yields, residential land area, ind
 
 ## Key Findings
 
-- **83% classification accuracy** for suburb-level supply risk across 33 SA2 regions
+- **83% classification accuracy** across 33 Brisbane SA2 regions
 - Residential land supply varies significantly across Brisbane — housing pressure is not uniform across the metro area
 - Inner-city and high-growth corridor suburbs show the highest supply pressure relative to available land
 - Dwelling yield and supply ratio are the strongest predictors of shortfall risk; Random Forest consistently outperformed Linear Regression on these non-linear spatial patterns
-- The model produces a repeatable, data-driven input for planning decisions — it can be re-run as new ABS or CoreLogic data becomes available without rebuilding from scratch
+- Linear Regression was abandoned early (R²=0.044) in favour of Random Forest, which achieved R²=0.489 — an 11× improvement — by modelling at SA2 level with population projections as features
 
 ---
 
 ## How to Run
 
 ```bash
-git clone https://github.com/SamadZaheer/Brisbane-Housing-Affordability.git
+git clone git@github.com:SamadZaheer/Brisbane-Housing-Affordability.git
 cd Brisbane-Housing-Affordability
 pip install -r requirements.txt
 jupyter notebook "Brisbane Housing Affordability.ipynb"
